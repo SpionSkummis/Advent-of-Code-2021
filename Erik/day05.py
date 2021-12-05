@@ -11,7 +11,7 @@ x_max = 1000
 y_max = 1000
 
 grid = np.zeros((x_max, y_max))
-#grid2 = np.zeros((x_max, y_max))
+grid2 = np.zeros((x_max, y_max))
 
 for instr in data:
     x1, y1 = instr[0]
@@ -19,34 +19,11 @@ for instr in data:
     if (x1 == x2):
         for y in range(min(y1, y2), max(y1, y2)+1):
             grid[x1][y] += 1
-            #grid2[x1][y] += 1
+            grid2[x1][y] += 1
     elif (y1 == y2):
         for x in range(min(x1, x2), max(x1, x2)+1):
             grid[x][y1] += 1
-            #grid2[x][y1] += 1
-    #else:
-
-mult_vent_count = 0
-for x in range(len(grid)):
-    for y in range(len(grid[0])):
-        if grid[x][y] > 1:
-            mult_vent_count += 1
-print(mult_vent_count)
-
-
-
-grid = np.zeros((x_max, y_max))
-
-for instr in data:
-    x1, y1 = instr[0]
-    x2, y2 = instr[1]
-
-    if (x1 == x2):
-        for y in range(min(y1, y2), max(y1, y2)+1):
-            grid[x1][y] += 1
-    elif (y1 == y2):
-        for x in range(min(x1, x2), max(x1, x2)+1):
-            grid[x][y1] += 1
+            grid2[x][y1] += 1
     else:
         if x1 < x2:
             x_vals = [a for a in range(x1, x2+1)]
@@ -56,14 +33,17 @@ for instr in data:
             y_vals = [a for a in range(y1, y2+1)]
         else:
             y_vals = [a for a in range(y1, y2-1, -1)]
-        #print(x_vals, y_vals)
         for i in range(len(x_vals)):
-            grid[x_vals[i]][y_vals[i]] += 1
+            grid2[x_vals[i]][y_vals[i]] += 1
 
-#print(grid)
 mult_vent_count = 0
+mult_vent_count2 = 0
 for x in range(len(grid)):
     for y in range(len(grid[0])):
         if grid[x][y] > 1:
             mult_vent_count += 1
-print(mult_vent_count)
+        if grid2[x][y] > 1:
+            mult_vent_count2 += 1
+
+print(f"Part 1: {mult_vent_count}")
+print(f"Part 2: {mult_vent_count2}")
