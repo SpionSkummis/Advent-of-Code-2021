@@ -1,5 +1,4 @@
 from collections import Counter
-import math
 
 with open("inputs/day06.txt") as f:
     data = [int(d) for d in f.readline().split(",")]
