@@ -34,22 +34,18 @@ for num in numbers:
     if winner_id > -1:
         break
 
-
 winner_score = 0
-
 for x in range(5):
     for y in range(5):
         if board_markings[winner_id][x][y] == 0:
             winner_score += boards[winner_id][x][y]
 
-print(winner_score, last_called, winner_score* last_called)
-
+print(f"{last_called}!\nBINGO!!!\nFirst winning score is: {winner_score*last_called}\n")
 
 """ PART 2 """
-
 board_markings2 = [np.zeros((5,5)) for x in range(len(boards))]
-winner_ids = [] #-1
-last_calleds = [] #-1
+winner_ids = []
+last_calleds = []
 
 for num in numbers:
     for a in range(len(boards)):
@@ -60,31 +56,20 @@ for num in numbers:
                 for y in range(5):
                     if boards[a][x][y] == num:
                         board_markings2[a][x][y] = 1
-    #for a in range(len(boards)):
         if a in winner_ids:
             pass
         else:
             if 5 in np.sum(board_markings2[a],(0)):
-                winner_ids.append(a) # = a
-                last_calleds.append(num) # = num
-                #break
+                winner_ids.append(a)
+                last_calleds.append(num)
             if 5 in np.sum(board_markings2[a],(1)):
-                winner_ids.append(a) # = a
-                last_calleds.append(num) # = num
-                #break
-    print(winner_ids)
-
-
-print(winner_ids[-1])
-print(boards[winner_ids[-1]])
-#print(board_markings2[winner_ids[-1]])
+                winner_ids.append(a)
+                last_calleds.append(num)
 
 winner_score = 0
-
 for x in range(5):
     for y in range(5):
         if board_markings2[winner_ids[-1]][x][y] == 0:
             winner_score += boards[winner_ids[-1]][x][y]
 
-print(board_markings2[winner_ids[-1]])
-print(winner_score, last_calleds[-1], winner_score* last_calleds[-1])
+print(f"...{last_calleds[-1]}?\nbingo...\nLast winning score is: {winner_score*last_calleds[-1]}")
