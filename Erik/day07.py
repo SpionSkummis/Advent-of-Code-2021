@@ -1,4 +1,3 @@
-from os import stat
 import statistics
 with open("Erik/inputs/input07.txt", "r") as f:
     crabsubs = [int(x) for x in f.read().strip().split(",")]
