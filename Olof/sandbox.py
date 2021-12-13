@@ -11,3 +11,5 @@ print(b)
 
 #alla rader, kolumn 1
 print(b[:, 1])
+
+
