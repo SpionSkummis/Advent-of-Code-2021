@@ -1,6 +1,6 @@
 #1588 too high
 import numpy as np
-with open("Erik/inputs/input09-t.txt", "r") as f:
+with open("Erik/inputs/input09.txt", "r") as f:
     heatmap = np.array([[int(y) for y in x.strip()] for x in f.readlines()])
 
 def check_for_lower(x, y, inmap):
@@ -24,39 +24,32 @@ def check_for_lower(x, y, inmap):
             return True
     return False
 
-def find_base_size(start_coords, inmap, all_coords=set()):
+def find_base_size(start_coords, inmap, all_coords):
     x = start_coords[0]
     y = start_coords[1]
-    go_deeper = False
+    all_coords.add((x,y))
     temp_coord_set = set()
 
-
-    if x == 0:
+    if x < (len(inmap) -1):
         if (inmap[x+1][y] < 9):
-                temp_coord_set.add((x+1,y))
-    elif x == len(inmap) - 1:
-            if (inmap[x-1][y] < 9):
-                temp_coord_set.add((x-1,y))
-    else:
-        if (inmap[x+1][y] < 9):
-                temp_coord_set.add((x+1,y))
+            temp_coord_set.add((x+1,y))
+    if x > 0:
         if (inmap[x-1][y] < 9):
-                temp_coord_set.add((x-1,y))
-    if y == 0:
+            temp_coord_set.add((x-1,y))
+    
+    if y < (len(inmap[0]) -1):
         if (inmap[x][y+1] < 9):
-                temp_coord_set.add(inmap[(x+1,y)])
-    elif y == len(inmap[0]) -1:
-        if (inmap[x][y-1] == 9):
-                temp_coord_set.add(inmap[(x+1,y)])
-    else:
-        if (inmap[x][y+1]== 9) or (inmap[x][y-1] == 9):
-                temp_coord_set.add(inmap[(x+1,y)])
-    return go_deeper
-
+            temp_coord_set.add((x,y+1))
+    if y > 0:
+        if (inmap[x][y-1] < 9):
+            temp_coord_set.add((x,y-1))
+    
+    if len(all_coords.difference(temp_coord_set)) == 0:
+        return all_coords
+    for coord in temp_coord_set.difference(all_coords):
+        all_coords.update(find_base_size(coord, inmap, all_coords))
 
     return all_coords
-
-
 
 risk_level = 0
 low_coordinates = []
@@ -69,6 +62,9 @@ for x_pos in range(len(heatmap)):
 
 print("Part 1:", risk_level)
 
-print(low_coordinates)
+all_regions = []
+for coord in low_coordinates:
+    all_regions.append(find_base_size(coord, heatmap, set()))
+bignum = sorted([len(x) for x in all_regions])
 
-print(find_base_size(low_coordinates[0], heatmap))
+print(f"Part 2: {bignum[-1]*bignum[-2]*bignum[-3]}")
