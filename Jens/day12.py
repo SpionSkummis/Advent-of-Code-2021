@@ -11,9 +11,7 @@ with open("inputs/day12.txt") as f:
 def possible_nodes(node, path, part2 = False):
     possible_steps = []
     for c in cave[node]:
-        if c.isupper() or c not in path:
-            possible_steps.append(c)
-        elif part2 and c!= "start":
+        if c.isupper() or c not in path or (part2 and c != "start"):
             possible_steps.append(c)
     return possible_steps
 
